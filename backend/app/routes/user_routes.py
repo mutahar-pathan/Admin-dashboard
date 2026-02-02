@@ -1,4 +1,4 @@
-from app.controllers.user_controller import create_user
+from app.controllers.user_controller import create_user 
 from app.models.user_models import User
 from fastapi import APIRouter
 
