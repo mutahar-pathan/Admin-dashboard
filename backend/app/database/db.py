@@ -8,5 +8,6 @@ db = client["Admin_Dashboard"]
 
 users_collection = db["users"]
 product_collection  = db["product"]
+order_collection = db["orders"]
 
 print("mongodb connected successfully")
