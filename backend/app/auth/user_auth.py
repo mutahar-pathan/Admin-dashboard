@@ -2,6 +2,7 @@ from app.models.user_auth import Register , Login
 from app.database.db import auth_user
 from fastapi import HTTPException , APIRouter
 from app.auth.password import hash_password , verify_password
+from app.auth.token import create_access_token
 
 auth_router = APIRouter()
 
@@ -14,7 +15,7 @@ auth_router = APIRouter()
 #         )
 #     auth_user.insert_one(register.dict())
 
-#     return{
+#     return{``
 #         "message" : "register successfully"
 #     }
 
@@ -64,8 +65,16 @@ def login_user(login: Login):
 
     if not verify_password(login.password, user["password"]):
         raise HTTPException(status_code=401, detail="Invalid password")
+    
+    token = create_access_token({
+        "user_id": str(user["_id"]),
+        "email": user["email"],
+        "role": user.get("role", "user")
+    })
 
     return {
         "message": "login successfully",
+        "access_token": token,
+        "token_type": "bearer",
         "role": user["role"]
     }
