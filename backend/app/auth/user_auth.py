@@ -1,8 +1,9 @@
-from app.models.user_auth import Register , Login
+from app.models.auth import Register , Login
 from app.database.db import auth_user
-from fastapi import HTTPException , APIRouter
+from fastapi import HTTPException , APIRouter , Depends
 from app.auth.password import hash_password , verify_password
 from app.auth.token import create_access_token
+from app.auth.roles import admin_only , user_only
 
 auth_router = APIRouter()
 
@@ -27,6 +28,7 @@ def register_user(register: Register):
 
     user_data = register.dict()
     user_data["password"] = hash_password(register.password)
+    user_data["role"] = "user" 
 
     auth_user.insert_one(user_data)
 
@@ -78,3 +80,14 @@ def login_user(login: Login):
         "token_type": "bearer",
         "role": user["role"]
     }
+
+@auth_router.get("/dashboard")
+def dashboard(user=Depends(admin_only)):
+    return {
+        "message": "Welcome Admin",
+        "email": user["email"]
+    }
+
+@auth_router.get("/me")
+def me(user=Depends(user_only)):
+    return user
