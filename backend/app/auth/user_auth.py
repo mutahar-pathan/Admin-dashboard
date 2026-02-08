@@ -72,7 +72,7 @@ def login_user(login: Login):
         "user_id": str(user["_id"]),
         "email": user["email"],
         "role": user.get("role", "user")
-    })
+    }) 
 
     return {
         "message": "login successfully",
