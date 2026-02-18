@@ -1,6 +1,6 @@
 from fastapi import FastAPI , Depends
-from app.auth.token import verify_token
-from app.router.product_routes import product_router
+from api.auth.token import verify_token
+from api.router.product_routes import product_router
 
 
 app = FastAPI()
@@ -16,4 +16,4 @@ def verify(user = Depends(verify_token)):
         "user": user
     }
 
-app.include(product_router)
+app.include_router(product_router)
