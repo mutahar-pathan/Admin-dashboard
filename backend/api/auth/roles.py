@@ -1,8 +1,8 @@
 from fastapi import Depends, HTTPException, status
 from bson import ObjectId
-from app.auth.token import verify_token
-from app.database.db import auth_user
-from app.utils.serializer import serialize_user
+from api.auth.token import verify_token
+from database.db import auth_user
+from utils.serializer import serialize_user
 
 
 def get_current_user(payload=Depends(verify_token)):

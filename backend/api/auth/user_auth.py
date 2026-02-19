@@ -1,9 +1,9 @@
-from app.models.auth import Register , Login
-from app.database.db import auth_user
+from models.auth import Register,Login
+from database.db import auth_user
 from fastapi import HTTPException , APIRouter , Depends
-from app.auth.password import hash_password , verify_password
-from app.auth.token import create_access_token
-from app.auth.roles import admin_only , user_only
+from api.auth.password import hash_password , verify_password
+from api.auth.token import create_access_token
+from api.auth.roles import admin_only,user_only
 
 auth_router = APIRouter()
 
