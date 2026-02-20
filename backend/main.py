@@ -1,6 +1,6 @@
 from fastapi import FastAPI , Depends
 from api.auth.token import verify_token
-from api.auth.user_auth import auth_router
+from api.router.route import auth_router
 
 
 app = FastAPI()
@@ -12,8 +12,8 @@ def read_root():
 @app.get("/verify-token")
 def verify(user = Depends(verify_token)):
     return {
-        "message": "Token is valid",
+        "message": "Token is valid", 
         "user": user
     }
 
-app.include_router(auth_router,prefix="/auth")
+app.include_router(auth_router)

@@ -5,7 +5,7 @@ from api.auth.password import hash_password , verify_password
 from api.auth.token import create_access_token
 from api.auth.roles import admin_only,user_only
 
-auth_router = APIRouter()
+router = APIRouter()
 
 # @auth_router.post("/register")
 # def register_user(register : Register):
@@ -21,7 +21,7 @@ auth_router = APIRouter()
 #     }
 
 
-@auth_router.post("/register")
+@router.post("/register")
 def register_user(register: Register):
     if auth_user.find_one({"email": register.email}):
         raise HTTPException(status_code=400, detail="Email already registered")
@@ -58,7 +58,7 @@ def register_user(register: Register):
 #         "user": user
 #     }
 
-@auth_router.post("/login")
+@router.post("/login")
 def login_user(login: Login):
     user = auth_user.find_one({"email": login.email})
 
@@ -81,13 +81,13 @@ def login_user(login: Login):
         "role": user["role"]
     }
 
-@auth_router.get("/dashboard")
+@router.get("/dashboard")
 def dashboard(user=Depends(admin_only)):
     return {
         "message": "Welcome Admin",
         "email": user["email"]
     }
 
-@auth_router.get("/me")
+@router.get("/me")
 def me(user=Depends(user_only)):
     return user
